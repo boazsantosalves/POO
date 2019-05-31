@@ -1,0 +1,66 @@
+class Conta{
+  private String NomeCliente;
+  private int saldo;
+  private int limite;
+
+  public Conta(String NomeCliente, int saldo, int limite){
+    this.NomeCliente = NomeCliente;
+    this.saldo = saldo;
+    this.limite = limite;
+  }
+
+  public void setNomeCliente(String NomeCliente){
+    this.NomeCliente = NomeCliente;
+  } 
+
+  public String getNomeCliente(){
+    return NomeCliente;
+  }
+
+  public void setSaldo(int saldo){
+    this.saldo = saldo;
+  } 
+
+  public int getSaldo(){
+    return saldo;
+  }
+
+  public void setLimite(int limite){
+    this.limite = limite;
+  } 
+
+  public int getLimite(){
+    return limite;
+  }
+
+  int saque = 0;
+  public void Sacar(int saque){
+    if (saldo>=saque){
+      saldo = saldo-saque;
+    }
+    else{
+      System.out.println("Você não pode retirar essa quantidade");
+
+    }
+     
+  }
+
+  int deposito = 0;
+  public void Depositar(){
+    if (saldo+deposito<limite){
+      saldo = saldo+deposito;
+    }
+
+
+
+  }
+}
+
+class Main{
+  public static void main(String[] args){
+    Conta c = new Conta("João", 100, 2000);
+    System.out.println(c.getNomeCliente());
+    c.Sacar(1000);
+
+  }
+}
