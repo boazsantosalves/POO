@@ -1,0 +1,20 @@
+class Main{
+  public static void main(String args[]){
+
+    int vetor[][];
+    vetor = new int[10][];
+
+    vetor[0] = new int[10];
+
+    int i;
+    for(i=0; i<10; i++){
+      vetor[0][i] = i+1;;   
+    }
+
+    int j;
+    for(j=0; j<10; j++){
+      System.out.println(vetor[0][j]);
+    }
+  }
+}
+/*Crio um vetor bidimensional de 10 linhas, na sua posição 0 crio outro vetor de tamanho 10. Preencho as posições com usando o for e depois mostro cada valor*/
