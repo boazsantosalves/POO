@@ -1,0 +1,313 @@
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
+
+abstract class Vinho {
+    private String nome, TipoUva, fabricante;
+    private Date dtFabricacao;
+    private double ValorDeCompra;
+
+    public Vinho(String nome, String TipoUva, String fabricante, Date dtFabricacao, double ValorDeCompra) {
+        this.nome = nome;
+        this.TipoUva = TipoUva;
+        this.fabricante = fabricante;
+        this.dtFabricacao = dtFabricacao;
+        this.ValorDeCompra = ValorDeCompra;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getTipoUva() {
+        return TipoUva;
+    }
+
+    public void setTipoUva(String TipoUva) {
+        this.TipoUva = TipoUva;
+    }
+
+    public String getFabricante() {
+        return fabricante;
+    }
+
+    public void setFabricante(String fabricante) {
+        this.fabricante = fabricante;
+    }
+
+    
+
+    public double getValorDeCompra() {
+        return ValorDeCompra;
+    }
+
+    public void setValorDeCompra(float ValorDeCompra) {
+        this.ValorDeCompra = ValorDeCompra;
+    }
+
+    public Date getDtFabricacao() {
+        return dtFabricacao;
+    }
+
+    public void setDtFabricacao(Date dtFabricacao) {
+        this.dtFabricacao = dtFabricacao;
+    }
+    
+    public abstract double ValorVenda();
+    
+    
+    
+    
+}
+
+class VinhoBranco extends Vinho {
+    private String tipo;
+    
+    public VinhoBranco(String nome, String TipoUva, String fabricante, Date dtFabricacao, double ValorDeCompra, String tipo){
+        super(nome, TipoUva, fabricante, dtFabricacao, ValorDeCompra);
+        this.tipo = tipo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+    
+    @Override
+    public double ValorVenda(){
+        if("frisante".equals(tipo)){
+            return (getValorDeCompra()*0.15 + getValorDeCompra());
+            
+        }
+        
+        else{
+            return getValorDeCompra();
+        }
+    }
+    
+    
+    
+}
+
+
+
+class VinhoTinto extends Vinho {
+    private int safra;
+    
+    public VinhoTinto(String nome, String TipoUva, String fabricante, Date dtFabricacao, double ValorDeCompra, int safra){
+        super(nome, TipoUva, fabricante, dtFabricacao, ValorDeCompra);
+        this.safra = safra;
+    }
+
+    public int getSafra() {
+        return safra;
+    }
+
+    public void setSafra(int safra) {
+        this.safra = safra;
+    }
+    
+    public double ValorVenda(){
+        if((2019-safra)>=10){
+            return (getValorDeCompra()*0.22 + getValorDeCompra());
+                    
+        }
+        
+        else{
+            return getValorDeCompra();
+        }
+    }
+    
+    
+    
+}
+
+class Adega {
+    private String nome;
+    private List<Vinho> colmeia;
+    private int quantVinho;
+    
+    public Adega(String nome){
+        this.nome = nome;
+        this.colmeia = new ArrayList<Vinho>();
+        this.quantVinho = 0;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    
+    
+    
+    
+    
+    
+    /*Vinho e local onde será alocado*/
+    public void AdcVinho(Vinho vinho){
+        colmeia.add(vinho);
+        quantVinho++;
+        
+    }
+    
+    public void Cadastrados(){
+        System.out.println("\nQuantidade de vinhos cadastrados: " + quantVinho + "\n");
+    }
+    
+    int i;
+    int Vinho_Branco = 0;
+    int Vinho_Tinto = 0;
+    
+    public void Tipos(){
+        for(i = 0; i<colmeia.size(); i++){
+          if(colmeia.get(i) instanceof VinhoBranco){
+            Vinho_Branco++;
+          }
+
+          if(colmeia.get(i) instanceof VinhoTinto){
+            Vinho_Tinto++;
+          }
+            
+        }
+        
+        System.out.println("A quantidade de vinho branco é: " + Vinho_Branco);
+        System.out.println("A quantidade de vinho tinto é: " + Vinho_Tinto + "\n");
+        
+        
+        
+    }
+    
+    double ValorCompra = 0.0;
+    public void ValorTotalCompra(){
+        for(i=0; i<colmeia.size(); i++){
+            
+          if(colmeia.get(i) != null){
+            ValorCompra = (ValorCompra + colmeia.get(i).getValorDeCompra());
+          }
+            
+            
+        }
+
+         System.out.printf("Valor total de compra: R$ %.2f \n",  ValorCompra);
+        
+        
+        
+    }
+    
+    double ValorTotalDeVenda = 0.0;
+    public void ValorTotalVenda(){
+        for(i=0; i<colmeia.size(); i++){
+            
+          if(colmeia.get(i) != null){
+            ValorTotalDeVenda = (ValorTotalDeVenda + colmeia.get(i).ValorVenda());
+          }
+               
+        }
+
+        System.out.printf("Valor total de venda: R$ %.2f \n ", ValorTotalDeVenda);
+        
+        
+    }
+    
+    
+    public void Escolha(int posicao){
+        if(colmeia.get(posicao) != null){
+            
+            System.out.println("Vinho escolhido: " + colmeia.get(posicao).getNome());
+            
+        }
+        
+        
+        else{
+            
+            System.out.println("Não temos vinho nesta localização");
+            
+        }
+       
+   
+    }
+
+    public void MaisAntigo(){
+      Vinho menor = colmeia.get(0);
+      
+      for(i=0; i<colmeia.size(); i++){
+        
+        Vinho atual = colmeia.get(i);
+        if(colmeia.get(i) != null){
+            if(atual.getDtFabricacao().before(menor.getDtFabricacao())){
+            menor = colmeia.get(i);
+
+            }
+          
+          }
+
+        
+      }
+
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+      System.out.println("O vinho mais antigo da adega é: " + menor.getNome() + ", data: " +  formato.format(menor.getDtFabricacao()));
+      
+
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+    
+    
+}
+
+
+class Main{
+
+  public static void main(String[] args) throws ParseException{
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    Date data = formato.parse("23/11/2009");
+    
+    VinhoBranco v1 = new VinhoBranco("Malbec", "uva vermelha", "Brasil Uvas",data, 100.0, "frisante");
+
+    
+    data = formato.parse("20/02/2009");
+
+    VinhoBranco v2 = new VinhoBranco("Merlot", "uva branca", "Eua Uvas", data, 300.0, "frisante");
+
+    Adega a = new Adega("Minha adega");
+    a.AdcVinho(v1);
+    a.AdcVinho(v2);
+    
+    a.Cadastrados();
+    
+    a.Tipos();
+    
+    a.ValorTotalCompra();
+    a.ValorTotalVenda();
+
+    System.out.println("");
+
+    a.Escolha(0);
+    a.MaisAntigo();
+
+
+  }
+}
