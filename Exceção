@@ -1,0 +1,113 @@
+class CadastroException extends Exception{
+
+  public CadastroException(String msg){
+    super(msg);
+  }
+  
+}
+
+abstract class Frete{
+  private int distanciaKm;
+  private double valorKm;
+
+  public Frete(int distanciaKm, double valorKm){
+    this.distanciaKm = distanciaKm;
+    this.valorKm = valorKm;
+  }
+  public abstract double calcularFrete();
+  public int getDistanciaKm(){
+    return distanciaKm;
+  }
+  public double getValorKm(){
+    return valorKm;
+  }
+}
+
+class FretePadrao extends Frete {
+  public FretePadrao(int distanciaKm, double valorKm) {
+  super(distanciaKm, valorKm);
+  }
+  public double calcularFrete() {
+    return getDistanciaKm() * getValorKm();
+  }
+}
+
+class FreteExpresso extends Frete{
+  private int nivelUrgencia;
+  public FreteExpresso(int distanciaKm, double valorKm,
+  int nivelUrgencia){
+  super(distanciaKm, valorKm);
+  this.nivelUrgencia = nivelUrgencia;
+  }
+  public double calcularFrete(){
+    return (getDistanciaKm() * getValorKm()) + (nivelUrgencia * 100);
+  }
+}
+
+class FreteSuperExpresso extends FreteExpresso{
+  private double valorSeguro;
+  public FreteSuperExpresso(int distanciaKm, double valorKm,
+  int nivelUrgencia,double valorSeguro){
+  super(distanciaKm, valorKm, nivelUrgencia);
+  this.valorSeguro = valorSeguro;
+  }
+  public double calcularFrete(){
+    return super.calcularFrete() + valorSeguro;
+  }
+}
+
+class CadastroFrete {
+
+  
+  private Frete[] fretes = new Frete[10];
+  private int indice = 0;
+  
+
+  
+  public void adicionar(Frete f) throws CadastroException{
+    
+    
+    
+    if (indice < fretes.length){
+      
+      /* indice +1 porque ele começa em 0 */
+      if(indice+1 > 3) throw new CadastroException("Cadastros esgotados");
+
+      fretes[indice++] = f;
+    }
+  }
+  public double calcularTotal(){
+    double total = 0;
+    for (int i = 0; i < indice; i++){
+      total += fretes[i].calcularFrete();//Polimorfismo
+    }
+    return total;
+  }
+}
+
+public class Main{
+  public static void main(String[] args){
+    try{
+      CadastroFrete cadastro = new CadastroFrete();
+      Frete fp = new FretePadrao(10, 5);
+      Frete fp2 = new FretePadrao(15, 6);
+      Frete fe = new FreteExpresso(10, 5, 2);
+      Frete fse = new FreteSuperExpresso(10, 5, 3, 100);
+      cadastro.adicionar(fp);
+      cadastro.adicionar(fe);
+      cadastro.adicionar(fse);
+      cadastro.adicionar(fp2);
+      System.out.println(cadastro.calcularTotal());
+    }
+
+    catch(CadastroException e){
+      System.out.println(String.format("Erro: %s", e.getMessage()));
+    }
+
+
+    finally{
+      System.out.println("Não importa se houve erro, " + "essa mensagem vai aparecer!");
+
+    }
+  }
+}
