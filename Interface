@@ -1,0 +1,435 @@
+import java.util.*;
+
+interface Veiculo{
+  
+  /* Todos os métodos de uma interface são abstratos */
+  
+  /* A classe que inplementa-la terá que chamar os métodos, a não ser que a classe seja abstrata */
+  
+  
+  public void acelerar();
+  
+  public void frear();
+
+
+}
+
+abstract class VeiculoBase implements Veiculo{
+  
+  private int velocidade;
+  private String descricao;
+  private int ano;
+  private String placa;
+  private int potencia;
+  private double valor;
+
+  public VeiculoBase(int velocidade, String descricao, int ano, String placa, int potencia, double valor){
+    this.velocidade = velocidade;
+    this.descricao = descricao; 
+    this.ano = ano;
+    this.placa = placa;
+    this.potencia = potencia;
+    this.valor = valor;
+
+  
+  }
+  public int getVelocidade(){
+    return velocidade;
+  }
+
+  public void setVelocidade(int velocidade){
+    this.velocidade = velocidade;
+  }
+
+
+  public String getDescricao(){
+    return descricao;
+  }
+
+ 
+  public int getAno(){
+    return ano;
+  }
+
+
+  public String getPlaca(){
+    return placa;
+  }
+
+  public int getPotencia(){
+    return potencia;
+  }
+
+  public double getValor(){
+    return valor;
+  }
+
+  
+}
+
+
+class Moto extends VeiculoBase{
+  
+  
+  public Moto(int velocidade, String descricao, int ano, String placa, int potencia, double valor){
+   
+    super(velocidade, descricao, ano, placa, potencia, valor);
+
+  }
+
+
+  public void acelerar(){
+    setVelocidade(getVelocidade()+10);
+
+  }
+  
+  
+  
+  public void frear(){
+    if((getVelocidade()-10) >= 0){
+
+      setVelocidade(getVelocidade()-10);
+
+    }
+
+  }
+
+}
+
+
+
+class Carro extends VeiculoBase{
+  
+  private int qtdPorta;
+
+
+  public Carro(int velocidade, String descricao, int ano, String placa, int potencia, double valor, int qtdPorta){
+    
+    super(velocidade, descricao, ano, placa, potencia, valor);
+    this.qtdPorta = qtdPorta;
+
+  }
+
+  public int getQtdPorta(){
+    return qtdPorta;
+  }
+
+  public void acelerar(){
+    setVelocidade(getVelocidade()+10);
+
+  }
+  
+  
+  
+  public void frear(){
+    if((getVelocidade()-10) >= 0){
+
+      setVelocidade(getVelocidade()-10);
+
+    }
+
+  }
+
+
+}
+
+
+
+class Caminhao extends VeiculoBase{
+  private int carga;
+  private double comprimento;
+
+
+  public Caminhao(int velocidade, String descricao, int ano, String placa, int potencia, double valor,int carga, double comprimento){
+
+    super(velocidade, descricao, ano, placa, potencia, valor);
+    this.carga = carga;
+    this.comprimento = comprimento;
+
+  
+  }
+
+  public int getCarga(){
+    return carga;
+  }
+
+  public double getComprimento(){
+    return comprimento;
+  }
+
+
+  public void acelerar(){
+
+    setVelocidade(getVelocidade()+8);
+
+  }
+  
+  
+  
+  public void frear(){
+
+    if((getVelocidade()- 8) >= 0){
+
+      setVelocidade(getVelocidade()-8);
+
+    }
+    
+  }
+
+
+} 
+
+
+
+
+class Onibus extends VeiculoBase{
+  private double comprimento;
+  private int passageiros;
+
+
+  public Onibus(int velocidade, String descricao, int ano, String placa, int potencia, double valor,double comprimento, int passageiros){
+    
+    super(velocidade, descricao, ano, placa, potencia, valor);
+    this.comprimento = comprimento;
+    this.passageiros = passageiros;
+
+  }
+
+  public double getComptimento(){
+    return comprimento;
+  }
+
+  public int getPassageiros(){
+    return passageiros;
+  }
+
+
+  
+  public void acelerar(){
+
+    setVelocidade(getVelocidade()+8);
+
+  }
+  
+  
+  public void frear(){
+
+    if((getVelocidade()- 8) >= 0){
+
+      setVelocidade(getVelocidade()-8);
+    
+    }
+  
+  }
+
+}
+
+class Estacionamento{
+  
+  private List<VeiculoBase> lista;
+  private String nome;
+
+  public Estacionamento(String nome){
+    this.lista = new ArrayList<VeiculoBase>();
+    this.nome = nome;
+  } 
+
+  public void add(VeiculoBase v){
+    lista.add(v);
+  }
+
+
+  /* QUANTIDADE DE VEÍCULOS POR TIPO */
+  
+  int moto = 0;
+  int carro = 0;
+  int caminhao = 0;
+  int onibus = 0;
+  int i;
+  
+  public void quant(){
+    
+    for(i=0; i<(lista.size()); i++){
+      
+      if(lista.get(i) instanceof Moto){
+        moto++;
+      }
+
+      if(lista.get(i) instanceof Carro){
+        carro++;
+      }
+
+      if(lista.get(i) instanceof Caminhao){
+        caminhao++;
+      }
+
+      if(lista.get(i) instanceof Onibus){
+        onibus++;
+      }
+
+    }
+
+    System.out.println("------------------------------------------------------\n");
+
+    System.out.println("Quantidade de veículos no estacionamento: \n");
+    System.out.println("Motos: " + moto + "\n");
+    System.out.println("Carros: " + carro + "\n");
+    System.out.println("Caminhões: " + caminhao + "\n");
+    System.out.println("Ônibus: " + onibus + "\n");
+
+
+
+  }
+
+
+  
+
+  public void menor(){
+
+    VeiculoBase menor = lista.get(0);
+    for(i=0; i<(lista.size()); i++){
+
+      if(lista.get(i).getValor() < menor.getValor()){
+        menor = lista.get(i);
+      }
+
+
+    }
+
+    System.out.println("------------------------------------------------------\n");
+
+    if(menor instanceof Moto){
+      System.out.println("Veículo com o menor valor: \n\nMoto - " + menor.getDescricao() + "\n");
+
+    }
+
+    if(menor instanceof Carro){
+      System.out.println("Veículo com o menor valor: \n\nCarro - " + menor.getDescricao() + "\n");
+
+    }
+
+    if(menor instanceof Caminhao){
+      System.out.println("Veículo com o menor valor: \n\nCaminhão - " + menor.getDescricao() + "\n");
+
+    }
+
+    if(menor instanceof Onibus){
+      System.out.println("Veículo com o menor valor: \n\nÔnibus - " + menor.getDescricao() + "\n");
+
+    }
+  }
+
+
+
+
+  int maior;
+  String tipo;
+  
+  public void maiorQtd(){
+    
+    /* Já temos as variáveis que guardam a quantidade de veículos por tipo (moto, carro, caminho e onibus)*/
+    maior = moto;
+    
+    if(carro>maior){
+      maior = carro;
+      tipo = "Carro";
+    }
+
+    if(caminhao>maior){
+      maior = caminhao;
+      tipo = "Caminhão";
+    }
+
+    if(onibus>maior){
+      maior = onibus;
+      tipo = "Ônibus";
+
+    }
+
+    System.out.println("------------------------------------------------------\n");
+    System.out.println("Veículo em maior quantidade: " + tipo + "\n");
+
+
+  }
+
+
+
+
+  double total = 0;
+  public void valorTotal(){
+
+    for(i=0; i<(lista.size()); i++){
+      total = lista.get(i).getValor() + total;
+
+    }
+
+    System.out.println("------------------------------------------------------\n");
+    System.out.println("Valor total da frota de veículos: R$ " + total + "\n");
+
+
+  }
+
+
+  public void acelerarTodos(){
+
+    for(i=0; i<(lista.size()); i++){
+      lista.get(i).acelerar();
+    }
+
+  }
+
+  public void frearTodos(){
+    
+    for(i=0; i<(lista.size()); i++){
+      lista.get(i).frear();
+    }
+
+
+  }
+
+  public void listagem(){
+    
+    System.out.println("------------------------------------------------------\n");
+
+    for(i=0; i<(lista.size()); i++){
+      System.out.println(lista.get(i).getDescricao() + " | Ano: " + lista.get(i).getAno() + " | Velocidade: "  + lista.get(i).getVelocidade() + " Km/h \n");
+    }
+
+  }
+
+
+  
+
+}
+
+class Main{
+  public static void main(String args[]){
+    
+    Moto moto = new Moto(90, "CG HONDA", 2010, "AAA-000", 150, 4500);
+    Carro carro = new Carro(120, "Corolla", 2019, "AAB-001", 2000, 50000, 4);
+    Carro carro2 = new Carro(130, "Jetta", 2019, "ABB-001", 2000, 45000, 4);
+    Caminhao caminhao = new Caminhao(100, "Mercedes", 2014, "AAC-002", 10000, 70000, 3, 30);
+    Onibus onibus = new Onibus(70, "Ônibus Escolar", 2017, "AAD-003", 9000, 30000, 15, 64);
+    
+    Estacionamento e = new Estacionamento("Zona 1");
+    e.add(moto); 
+    e.add(carro);
+    e.add(carro2);
+    e.add(caminhao); 
+    e.add(onibus);
+
+    e.quant();
+    e.maiorQtd();
+    e.menor();
+    e.valorTotal();
+    e.acelerarTodos();
+    e.frearTodos();
+    e.listagem();
+
+    
+
+
+    
+
+  }
+}
